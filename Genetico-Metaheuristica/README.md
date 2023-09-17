@@ -71,5 +71,6 @@ python.exe ./amin_genetico.py 1 20 100 0.95 0.3 100
 ```
 Entrega mejor resultado: ``[17 10 6 12 8 11 3 4 1 14 9 15 2 13 19 0 5 16 18 7]`` con 5 choques
 
- Integrantes : - Derqui Sanhueza
-               - Matías Salazar
+```
+ Integrantes : Derqui Sanhueza / Matías Salazar
+```
