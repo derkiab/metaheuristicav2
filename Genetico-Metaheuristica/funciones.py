@@ -1,40 +1,29 @@
 import numpy as np
 
 def ruleta(fit):
-    n = sum(fit)
-    prop = []
-    for i in fit:
-        prop.append(i/n)
-    rulet = []
-    rulet.append(prop[0])
+    n = np.sum(fit)
+    prop = np.array([i/n for i in fit])
+    roulette = np.array([prop[0]])
     for i in range(1, len(prop)):
-        rulet.append(rulet[i-1]+prop[i])
-    return rulet
+        roulette = np.append(roulette, (roulette[i-1] + prop[i]))
+    return roulette
 
-def fitness(poblacion_inicial,tamaño_poblacion,tamaño_tabl):
-    poblacion = 0
-    contador = 0
-    list = []
-    while poblacion < tamaño_poblacion:
-        i = 0
-        j = 1
-        while i<tamaño_poblacion-1:
-            while j<tamaño_tabl:
-                if abs(poblacion_inicial[poblacion][i]-poblacion_inicial[poblacion][j]) == abs(i-j):
-                    contador += 1
-                j += 1
-            i += 1
-            j = i + 1
-        poblacion += 1
-        if contador != 0:
-            list.append(1/contador)
-        else:
-            list.append(0)
+def fitness(poblacion_inicial, tamaño_poblacion, tamaño_tabl):
+    resultados = np.zeros(tamaño_poblacion)  
+
+    for poblacion in range(tamaño_poblacion):
         contador = 0
-    return list
+        for i in range(tamaño_poblacion - 1):
+            for j in range(i + 1, tamaño_tabl):
+                if abs(poblacion_inicial[poblacion][i] - poblacion_inicial[poblacion][j]) == abs(i - j):
+                    contador += 1
+        if contador != 0:
+            resultados[poblacion] = 1 / contador
+
+    return resultados
 
 def cruzar(poblacion_inicial, tamaño_tabl,cruza):
-    hijo = []
+    
     cruzarhijo1 = poblacion_inicial[cruza[0]]
     cruzarhijo2 = poblacion_inicial[cruza[1]]
     hijo = np.array([cruzarhijo1,cruzarhijo2])
@@ -65,8 +54,8 @@ def arreglar_hijos(hijo):
     return hijo
             
 def mutation(hijos,prob_mut):
-    savehijos = []
-    rows, columns= hijos.shape
+    savehijos = np.array([])
+    rows, columns= np.shape(hijos)
     for hijo in hijos:
         if np.random.rand() < prob_mut:
             while True:
