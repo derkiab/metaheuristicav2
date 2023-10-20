@@ -27,11 +27,11 @@ def crear_solucion_inicial(nro_nodos):   # Solucion inicial randomica
     np.random.shuffle(solucion_inicial)
     return solucion_inicial
 
-def crear_matriz_de_feromonas(nro_nodos,tamaño_colonia, valor_mejor_solucion):    # La feromona de tamaÃ±o nro_nodos x nro_nodos se inicializa con la formula 1/NumVariables*Costo(Solucion_inicial), donde solucion_inicial = valor_mejor_solucion en la primera iteracion
+def crear_matriz_de_feromonas(nro_nodos,tamaño_colonia, valor_mejor_solucion):    # Se crea la matriz feromona y esta se inicializa con formula sugerida en otras implementaciones de este tipo de problemas.
     feromona = np.full((nro_nodos,nro_nodos),1/(tamaño_colonia*valor_mejor_solucion))
     return feromona, 1/(tamaño_colonia*valor_mejor_solucion)
 
-def crear_matriz_distancias(nro_nodos,matriz_coordenadas):  # Creamos una matriz de nro_nodos x nro_nodos con 0s y 1s en la diagonal, luego reemplazamos la diagonal superior con las distancias de los nodos i, j y para hacerla simetrica le sumamos la transpuesta
+def crear_matriz_distancias(nro_nodos,matriz_coordenadas):  # Matriz de tamaño nro_nodos x nro_nodos con valores de su diagonal principal 1
     matriz_distancias = np.full((nro_nodos,nro_nodos),0, dtype=float) + np.eye(nro_nodos, dtype=int)
     for i in range(nro_nodos):
         for j in range(i + 1, nro_nodos):
@@ -47,7 +47,7 @@ def crear_matriz_heuristica(matriz_distancias):  # La matriz de heuristica es la
 def avanzar_hormiga(i,memoria_hormiga,feromona,colonia,nro_nodos,matriz_heuristica,evaporacion_feromona,valor_inicial_feromona,beta,q0): # Hacemos que una hormiga avance por todos los nodos, para ello buscamos sus nodos por visitar
     nodos_por_visitar = np.where(memoria_hormiga[i] == -1)[0]
     for k in range(nro_nodos - 1):
-        if np.random.rand() < q0:  # Con probabilidad q0 buscamos el trazado de feromona mas alto en el conjunto de nodos vecinos para cada hormiga
+        if np.random.rand() < q0:  # Con probabilidad 0.9 se toma el argumento maximo de la multiplicacion de la heuristica con la feromona del conjunto de nodos vecinos no visitados.
             max = 0
             max_posicion = -1
             for j in nodos_por_visitar:
