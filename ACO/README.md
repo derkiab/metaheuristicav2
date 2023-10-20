@@ -60,7 +60,7 @@ Caso de prueba que entrega la solución optima real:
 
 
 ```
-python.exe ./Amin-ants.py 2 8 100 0.95 0.3 100
+python.exe ./Amin-ants.py 3 50 100 0.1 2.5 0.9 berlin52.txt
 
 ```
 Solución: ``[8 9 42 32 50 10 51 13 12 46 25 26 27 11 24 3 5 14 4 23 47 37 36 39 38 35 34 33 43 45 15 28 49 19 22 29 1 6 41 20 16 2 17 30 21 0 48 31 44 18 40 7]``
